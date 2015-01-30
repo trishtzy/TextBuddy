@@ -40,7 +40,7 @@ public class TextBuddy {
 
 	}
 
-	private int getIndex(String text, ArrayList<String> list) {
+	public static int getIndex(String text, ArrayList<String> list) {
 		for (int i=0; i<list.size(); i++) {
 			String line = list.get(i);
 			if (text.equals(line)) {
@@ -124,13 +124,13 @@ public class TextBuddy {
 	}
 
 	public static void delete(String fileName, int num, ArrayList<String> list) {
-
+		
 		if (!list.isEmpty()) {
 			String deletedLine = list.get(num);
 			list.remove(num);
 			updateFile(fileName, list);
-		}
-		System.out.println("deleted from " + fileName + ": " + deletedLine);
+			System.out.println("deleted from " + fileName + ": " + deletedLine);
+		}	
 	}
 
 	public static void clear(String fileName, ArrayList<String> list) {

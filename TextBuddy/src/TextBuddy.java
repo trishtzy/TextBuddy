@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +7,7 @@ import java.util.Scanner;
 
 public class TextBuddy {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 
 		String fileName = args[0];
 
@@ -16,6 +17,8 @@ public class TextBuddy {
 		String command = null;
 
 		ArrayList<String> list = new ArrayList<String>();
+		synchronize(fileName, list);
+		//synchronise arraylist and file
 
 		do {
 			System.out.print("command: ");
@@ -28,8 +31,8 @@ public class TextBuddy {
 				display(fileName);
 			}
 			else if (command.equals("delete")) {
-				int num = Integer.parseInt(text);
-				delete(fileName, num, list);
+				int num = Integer.parseInt(text.trim());
+				delete(fileName, num-1, list);
 			}
 			else if (command.equals("clear")) {
 				clear(fileName, list);
@@ -39,6 +42,14 @@ public class TextBuddy {
 
 
 	}
+	
+	public static void synchronize(String fileName, ArrayList<String> list) throws FileNotFoundException {
+		Scanner sc = new Scanner(new File(fileName));
+		while (sc.hasNextLine()) {
+			String text = sc.nextLine();
+			list.add(text);
+		}
+	}
 
 	public static int getIndex(String text, ArrayList<String> list) {
 		for (int i=0; i<list.size(); i++) {
@@ -47,7 +58,7 @@ public class TextBuddy {
 				return i;
 			}
 		}
-		return -1;
+		return 0;
 	}
 
 	public static void updateFile(String fileName, ArrayList<String> list) {
@@ -57,10 +68,10 @@ public class TextBuddy {
 
 		try {
 			sc = new Scanner(new File(fileName));
-			pw = new PrintWriter(new File(fileName));		
+			pw = new PrintWriter(new File(fileName));
 			for (int i = 0; i<list.size(); i++) {
 				String line = list.get(i);
-				pw.println(i + ". " + line);
+				pw.println(i+1 + ". " + line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -84,8 +95,9 @@ public class TextBuddy {
 			pw = new PrintWriter(new File(fileName));
 			if (!(sc.hasNextLine())) {
 				list.add(text);
+				updateFile(fileName, list);
 				currentIndex = getIndex(text, list);
-				pw.println(currentIndex + ". " + text);
+				//pw.println(currentIndex + ". " + text);
 			}
 			else if (sc.hasNextLine()) {
 				list.add(text);
@@ -108,9 +120,13 @@ public class TextBuddy {
 		Scanner sc = null;
 
 		try {
-			sc = new Scanner(new File(fileName));
-			while (sc.hasNextLine()) {
+			sc = new Scanner(new File(fileName));	
+			if (sc.hasNextLine()) {
+				do {
 				System.out.println(sc.nextLine());
+				} while (sc.hasNextLine());
+			} else {
+				System.out.println(fileName + " is empty");
 			} 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,8 +135,6 @@ public class TextBuddy {
 				sc.close();
 			}
 		}
-
-		System.out.println(fileName + " is empty");
 	}
 
 	public static void delete(String fileName, int num, ArrayList<String> list) {

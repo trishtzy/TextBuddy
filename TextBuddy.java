@@ -105,8 +105,9 @@ public class TextBuddy {
 		
 		try {
 			sc = new Scanner(new File(fileName));
-			while (sc.hasNextLine()) {
-				
+			if ((!list.isEmpty()) && (sc.hasNextLine())) {
+				list.remove(num);
+			}
 				
 				
 			}

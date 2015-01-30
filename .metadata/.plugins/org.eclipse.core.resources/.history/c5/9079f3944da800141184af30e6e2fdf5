@@ -84,7 +84,7 @@ public class TextBuddy {
 			pw = new PrintWriter(new File(fileName));
 			if (!(sc.hasNextLine())) {
 				list.add(text);
-				currentIndex = getIndex(text, list);
+				currentIndex = list.getIndex(text, list);
 				pw.println(currentIndex + ". " + text);
 			}
 			else if (sc.hasNextLine()) {

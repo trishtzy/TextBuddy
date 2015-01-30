@@ -110,6 +110,11 @@ public class TextBuddy {
 			}
 				
 				
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (sc != null) {
+				sc.close();
 			}
 		}
 	}

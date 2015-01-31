@@ -1,3 +1,7 @@
+// Tricia Tan
+// A0116733J
+// F09
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
